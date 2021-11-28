@@ -1,0 +1,4 @@
+brutils==1.0.1
+pick==1.0.0
+PySimpleGUI==4.39.1
+pickle5==0.0.11
