@@ -1,6 +1,6 @@
 # Sistema de cronograma semanal
 
-Este sistema foi desenvolvido como parte do trabalho da disciplina de análise e desenvolvimento de sistemas da UFSC.
+Este sistema foi desenvolvido como parte do trabalho da disciplina de Análise e Projeto de Sistemas da UFSC.
 
 ## Instalando as dependências do sistema
 
