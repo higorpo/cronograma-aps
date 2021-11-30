@@ -4,10 +4,10 @@ from model.PeriodoLetivo import PeriodoLetivo
 
 class Disciplina:
 
-    def __init__(self, nome: str, periodoLetivo: PeriodoLetivo):
+    def __init__(self, nome: str, periodo_letivo: PeriodoLetivo):
         self.__id = uuid.uuid4()
         self.__nome = nome
-        self.__periodoLetivo = periodoLetivo
+        self.__periodo_letivo = periodo_letivo
 
     @property
     def id(self) -> uuid.UUID:
@@ -22,9 +22,9 @@ class Disciplina:
         self.__nome = nome
 
     @property
-    def periodoLetivo(self) -> PeriodoLetivo:
-        return self.__periodoLetivo
+    def periodo_letivo(self) -> PeriodoLetivo:
+        return self.__periodo_letivo
 
-    @periodoLetivo.setter
-    def periodoLetivo(self, periodoLetivo: PeriodoLetivo):
-        self.__periodoLetivo = periodoLetivo
+    @periodo_letivo.setter
+    def periodoLetivo(self, periodo_letivo: PeriodoLetivo):
+        self.__periodo_letivo = periodo_letivo

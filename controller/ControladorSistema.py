@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+from controller.ControladorDisciplina import ControladorDisciplina
 from controller.ControladorPeriodoLetivo import ControladorPeriodoLetivo
 from view.TelaSistema import TelaSistema
 from view.TelaMensagemSistema import TelaMensagemSistema
@@ -10,6 +11,7 @@ class ControladorSistema:
 
     def __init__(self):
         self.__controlador_periodo_letivo = ControladorPeriodoLetivo(self)
+        self.__controlador_disciplina = ControladorDisciplina(self)
         self.__tela_sistema = TelaSistema(self)
         self.__tela_mensagem_sistema = TelaMensagemSistema(self)
 
@@ -28,7 +30,7 @@ class ControladorSistema:
         lista_opcoes = {
             0: None,
             1: self.__controlador_periodo_letivo.abre_tela,
-            2: None,
+            2: self.__controlador_disciplina.abre_tela,
             3: None,
             4: None,
             5: None,
@@ -60,6 +62,7 @@ class ControladorSistema:
 
     def fechar_sistema(self):
         self.__controlador_periodo_letivo.dao.save_all()
+        self.__controlador_disciplina.dao.save_all()
         exit(0)
 
     @property
@@ -69,3 +72,7 @@ class ControladorSistema:
     @property
     def controlador_periodo_letivo(self) -> ControladorPeriodoLetivo:
         return self.__controlador_periodo_letivo
+
+    @property
+    def controlador_disciplina(self) -> ControladorDisciplina:
+        return self.controlador_disciplina
