@@ -3,14 +3,16 @@ import datetime
 from typing import List
 from model.Tag import Tag
 from model.Anotacao import Anotacao
+from model.Disciplina import Disciplina
 from utils.exceptions import NotFound
 
 
 class Atividade:
 
-    def __init__(self, nome: str, grauDificuldade: str, prazoEntrega: datetime):
+    def __init__(self, nome: str, disciplina: Disciplina, grauDificuldade: str, prazoEntrega: datetime):
         self.__id = uuid.uuid4()
         self.__nome = nome
+        self.__disciplina = disciplina
         self.__grauDificuldade = grauDificuldade
         self.__prazoEntrega = prazoEntrega
         self.__concluidaEm = None
@@ -28,6 +30,10 @@ class Atividade:
     @nome.setter
     def nome(self, nome: nome):
         self.__nome = nome
+
+    @property
+    def disciplina(self) -> datetime:
+        return self.__disciplina
 
     @property
     def grauDificuldade(self) -> str:
@@ -69,8 +75,8 @@ class Atividade:
     def anotacoes(self) -> List[Anotacao]:
         return self.__anotacoes
 
-    def addAnotacao(self, anotacao: Anotacao):
-        self.__anotacoes.push(anotacao)
+    def addAnotacao(self, texto_anotacao: str):
+        self.__anotacoes.push(Anotacao(texto_anotacao, self))
 
     def deleteAnotacao(self, anotacao: Anotacao):
         if anotacao in self.__anotacoes:
