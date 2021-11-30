@@ -65,9 +65,14 @@ class ControladorPeriodoLetivo:
                     .mensagem_sistema.warning(mensagens_periodo_letivo.get('ja_cadastrado'))
 
     def excluir(self, codigo_periodo_letivo):
+        codigos_periodos_das_disciplinas = list(map(
+            lambda x: x.periodo_letivo.id, self.__controlador_sistema.controlador_disciplina.disciplinas))
         try:
-            periodo_letivo = self.__dao.get(codigo_periodo_letivo)
-            self.__dao.remove(periodo_letivo)
+            if codigo_periodo_letivo in codigos_periodos_das_disciplinas:
+                raise DelecaoCascataPeriodo
+            else:
+                periodo_letivo = self.__dao.get(codigo_periodo_letivo)
+                self.__dao.remove(periodo_letivo)
         except Exception:
             self.__controlador_sistema\
                 .mensagem_sistema.error(mensagens_periodo_letivo.get('erro_excluir'))

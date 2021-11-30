@@ -26,5 +26,5 @@ class Disciplina:
         return self.__periodo_letivo
 
     @periodo_letivo.setter
-    def periodoLetivo(self, periodo_letivo: PeriodoLetivo):
+    def periodo_letivo(self, periodo_letivo: PeriodoLetivo):
         self.__periodo_letivo = periodo_letivo

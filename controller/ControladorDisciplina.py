@@ -54,8 +54,10 @@ class ControladorDisciplina:
         if event == 'criar':
             disciplinas = self.__dao.get_all()
             if len([x for x in disciplinas if x.nome == dados_disciplina['nome']]) == 0:
+                periodo_letivo_escolhido = [
+                    x for x in self.__periodos_letivos if x.id == dados_disciplina['periodo_letivo']][0]
                 instancia_disciplina = Disciplina(
-                    *dados_disciplina.values())
+                    dados_disciplina['nome'], periodo_letivo_escolhido)
 
                 self.__dao.add(instancia_disciplina)
                 return instancia_disciplina
@@ -63,16 +65,16 @@ class ControladorDisciplina:
                 self.__controlador_sistema\
                     .mensagem_sistema.warning(mensagens_disciplina.get('ja_cadastrado'))
 
-    def excluir(self, codigo_periodo_letivo):
+    def excluir(self, codigo_disciplina):
         try:
-            disciplina = self.__dao.get(codigo_periodo_letivo)
+            disciplina = self.__dao.get(codigo_disciplina)
             self.__dao.remove(disciplina)
         except Exception:
             self.__controlador_sistema\
                 .mensagem_sistema.error(mensagens_disciplina.get('erro_excluir'))
 
-    def editar(self, codigo_periodo_letivo):
-        disciplina = self.__dao.get(codigo_periodo_letivo)
+    def editar(self, codigo_disciplina):
+        disciplina = self.__dao.get(codigo_disciplina)
 
         event, dados_disciplina = self.__tela_cadastro.abrir_tela(
             True, disciplina, self.__periodos_letivos)
@@ -81,7 +83,10 @@ class ControladorDisciplina:
             return
         elif event == 'criar':
             nome = dados_disciplina.get('nome')
+            periodo_letivo = [
+                x for x in self.__periodos_letivos if x.id == dados_disciplina.get('periodo_letivo')][0]
             disciplina.nome = nome
+            disciplina.periodo_letivo = periodo_letivo
 
     def buscar(self) -> Disciplina:
         event, key = self.__tela_selecao.abrir_tela(

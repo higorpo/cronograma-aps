@@ -75,4 +75,4 @@ class ControladorSistema:
 
     @property
     def controlador_disciplina(self) -> ControladorDisciplina:
-        return self.controlador_disciplina
+        return self.__controlador_disciplina

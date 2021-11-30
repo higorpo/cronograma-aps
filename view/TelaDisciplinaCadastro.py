@@ -60,7 +60,6 @@ class TelaDisciplinaCadastro(AbstractTela):
                     values['input_selecao_periodo_letivo'] == '',
                     'É preciso selecionar uma disciplina'
                 )
-                print(values)
                 continue
             elif event == 'btn_salvar':
                 # Verifica se todos os campos são válidos, se não forem, exibe mensagem de erro.
@@ -74,7 +73,7 @@ class TelaDisciplinaCadastro(AbstractTela):
                     # Verifica se o valor do combo está certo...
                     super().fechar_tela()
                     periodo_letivo_escolhido = [
-                        x for x in periodos_letivos if x.nome == values['input_selecao_periodo_letivo']][0]
+                        x.id for x in periodos_letivos if x.nome == values['input_selecao_periodo_letivo']][0]
                     return (
                         'criar', {
                             'nome': values['input_nome_disciplina'],
