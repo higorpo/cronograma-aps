@@ -69,7 +69,7 @@ class ControladorPeriodoLetivo:
             lambda x: x.periodo_letivo.id, self.__controlador_sistema.controlador_disciplina.disciplinas))
         try:
             if codigo_periodo_letivo in codigos_periodos_das_disciplinas:
-                raise DelecaoCascataPeriodo
+                raise Exception
             else:
                 periodo_letivo = self.__dao.get(codigo_periodo_letivo)
                 self.__dao.remove(periodo_letivo)
