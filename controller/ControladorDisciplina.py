@@ -66,9 +66,16 @@ class ControladorDisciplina:
                     .mensagem_sistema.warning(mensagens_disciplina.get('ja_cadastrado'))
 
     def excluir(self, codigo_disciplina):
+        codigos_disciplinas_atividades = list(map(
+            lambda x: x.disciplina.id, self.__controlador_sistema.controlador_atividade.atividades))
+
         try:
-            disciplina = self.__dao.get(codigo_disciplina)
-            self.__dao.remove(disciplina)
+            if codigo_disciplina in codigos_disciplinas_atividades:
+                self.__controlador_sistema\
+                    .mensagem_sistema.error(mensagens_disciplina.get('erro_disciplina_com_atividade'))
+            else:
+                disciplina = self.__dao.get(codigo_disciplina)
+                self.__dao.remove(disciplina)
         except Exception:
             self.__controlador_sistema\
                 .mensagem_sistema.error(mensagens_disciplina.get('erro_excluir'))

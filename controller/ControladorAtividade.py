@@ -92,5 +92,5 @@ class ControladorAtividade:
             atividade.prazo_entrega = prazo_entrega
 
     @property
-    def atividade(self):
+    def atividades(self):
         return self.__dao.get_all()
