@@ -65,6 +65,7 @@ class ControladorSistema:
     def fechar_sistema(self):
         self.__controlador_periodo_letivo.dao.save_all()
         self.__controlador_disciplina.dao.save_all()
+        self.__controlador_atividade.dao.save_all()
         exit(0)
 
     @property
