@@ -14,7 +14,7 @@ class ControladorAtividade:
         self.__tela = TelaAtividade(self)
         self.__tela_cadastro = TelaAtividadeCadastro(self)
         self.__dao = AtividadeDAO()
-        self.__atividade = controlador_sistema.controlador_atividade.dao.get_all()
+        self.__disciplinas = controlador_sistema.controlador_disciplina.dao.get_all()
 
     def __new__(cls, _):
         if ControladorAtividade.__instance is None:
@@ -45,19 +45,19 @@ class ControladorAtividade:
                     .mensagem_sistema.warning('Ainda não implementado!')
 
     def map_object_to_array(self):
-        return list(map(lambda item: [item.id, item.nome, item.grau_dificuldade.nome, item.pra_entrega], self.__dao.get_all()))
+        return list(map(lambda item: [item.id, item.nome, item.disciplina.nome, 'Sem tag' if item.tag is None else item.tag.nome, item.grau_dificuldade, item.prazo_entrega], self.__dao.get_all()))
 
     def adicionar(self):
         event, dados_atividade = self.__tela_cadastro.abrir_tela(
-            False, None, self.__disciplina)
+            False, None, self.__disciplinas)
 
         if event == 'criar':
-            atividade = self.__dao.get_all()
-            if len([x for x in atividade if x.nome == dados_atividade['nome']]) == 0:
+            atividades = self.__dao.get_all()
+            if len([x for x in atividades if x.nome == dados_atividade['nome']]) == 0:
                 disciplina_escolhida = [
-                    x for x in self.__disciplina if x.id == dados_atividade['disciplina']][0]
+                    x for x in self.__disciplinas if x.id == dados_atividade['disciplina']][0]
                 instancia_atividade = Atividade(
-                    dados_atividade['nome'], disciplina_escolhida)
+                    dados_atividade['nome'], disciplina_escolhida, dados_atividade['grau_dificuldade'], dados_atividade['prazo_entrega'])
 
                 self.__dao.add(instancia_atividade)
                 return instancia_atividade
@@ -77,26 +77,19 @@ class ControladorAtividade:
         atividade = self.__dao.get(codigo_atividade)
 
         event, dados_atividade = self.__tela_cadastro.abrir_tela(
-            True, atividade, self.__disciplina)
+            True, atividade, self.__disciplinas)
 
         if event == 'exited':
             return
         elif event == 'criar':
             nome = dados_atividade.get('nome')
+            grau_dificuldade = dados_atividade.get('grau_dificuldade')
+            prazo_entrega = dados_atividade.get('prazo_entrega')
             disciplina = [
-                x for x in self.__atividade if x.id == dados_atividade.get('disciplina')][0]
+                x for x in self.__disciplinas if x.id == dados_atividade.get('disciplina')][0]
             atividade.nome = nome
-            atividade.disciplina = disciplina
-
-    def buscar(self) -> Atividade:
-        event, key = self.__tela_selecao.abrir_tela(
-            self.map_object_to_array()
-        )
-
-        if event == 'exited':
-            raise TelaFechada
-        elif event == 'selecionado':
-            return self.__dao.get(key)
+            atividade.grau_dificuldade = grau_dificuldade
+            atividade.prazo_entrega = prazo_entrega
 
     @property
     def atividade(self):

@@ -1,4 +1,5 @@
 import re
+import datetime
 from brutils import cpf, cnpj
 
 
@@ -45,3 +46,10 @@ class Validators:
     def validar_cep(cep: str):
         regex = '(\d{5})-?(\d{3})'
         return True if re.search(regex, cep) else False
+
+    def validar_data(data: str):
+        try:
+            datetime.datetime.strptime(data, "%d/%m/%Y")
+            return True
+        except ValueError:
+            return False

@@ -9,7 +9,8 @@ class TelaAtividade(AbstractTela):
         super().__init__(controlador, nome_tela='Atividades')
 
     def init_components(self, data):
-        headings = ['Código', 'Nome da atividade', 'Disciplina', 'Grau de dificuldade', 'Prazo de entrega']
+        headings = ['Código', 'Nome da atividade', 'Disciplina',
+                    'Tag', 'Grau de dificuldade', 'Prazo de entrega']
         layout = super()\
             .layout_tela_lista(headings=headings, values=data, modulo_nome='atividade', btn_visualizar_enabled=True)
 

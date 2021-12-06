@@ -54,6 +54,7 @@ class AbstractTela(ABC):
                     font=('Arial', 15),
                     enable_events=True,
                     background_color='#ffffff',
+                    disabled=input['disabled'] if 'disabled' in input else False
                 )
             elif input['type'] == 'text':
                 inputElement = sg.Input(
