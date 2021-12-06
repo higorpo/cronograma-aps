@@ -95,12 +95,32 @@ class TelaAtividadeCadastro(AbstractTela):
                 )
                 continue
             elif event == 'input_prazo_de_entrega':
-                valido[3] = super().validar_input(
+                valido_prazo_entrega = [False, False, False]
+
+                valido_prazo_entrega[0] = super().validar_input(
                     event,
                     not Validators.validar_data(
                         values['input_prazo_de_entrega']),
                     'É preciso digitar uma data válida no formato dia/mês/ano'
                 )
+
+                if valido_prazo_entrega[0] is True:
+                    valido_prazo_entrega[1] = super().validar_input(
+                        event,
+                        not Validators.validar_data_reatrotiva(
+                            values['input_prazo_de_entrega']),
+                        'É preciso uma data maior que a data atual'
+                    )
+
+                if valido_prazo_entrega[1] is True:
+                    valido_prazo_entrega[2] = super().validar_input(
+                        event,
+                        not Validators.validar_data_min_3_days(
+                            values['input_prazo_de_entrega']),
+                        'É preciso cadastrar no mínimo 3 dias antes'
+                    )
+
+                valido[3] = valido_prazo_entrega[2]
                 continue
             elif event == 'btn_salvar':
                 # Verifica se todos os campos são válidos, se não forem, exibe mensagem de erro.

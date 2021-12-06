@@ -53,3 +53,17 @@ class Validators:
             return True
         except ValueError:
             return False
+
+    def validar_data_reatrotiva(data: str):
+        if datetime.datetime.strptime(data, "%d/%m/%Y") <= datetime.datetime.now():
+            return False
+        else:
+            return True
+
+    def validar_data_min_3_days(data: str):
+        min_date = datetime.datetime.strptime(
+            data, "%d/%m/%Y") - datetime.timedelta(days=3)
+        if min_date <= datetime.datetime.now():
+            return False
+        else:
+            return True
