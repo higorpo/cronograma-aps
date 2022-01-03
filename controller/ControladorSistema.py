@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 from controller.ControladorAtividade import ControladorAtividade
 from controller.ControladorDisciplina import ControladorDisciplina
 from controller.ControladorPeriodoLetivo import ControladorPeriodoLetivo
+from controller.ControladorTag import ControladorTag
 from view.TelaSistema import TelaSistema
 from view.TelaMensagemSistema import TelaMensagemSistema
 from messages.Sistema import mensagens_sistema
@@ -13,6 +14,7 @@ class ControladorSistema:
     def __init__(self):
         self.__controlador_periodo_letivo = ControladorPeriodoLetivo(self)
         self.__controlador_disciplina = ControladorDisciplina(self)
+        self.__controlador_tag = ControladorTag(self)
         self.__controlador_atividade = ControladorAtividade(self)
         self.__tela_sistema = TelaSistema(self)
         self.__tela_mensagem_sistema = TelaMensagemSistema(self)
@@ -35,7 +37,7 @@ class ControladorSistema:
             2: self.__controlador_disciplina.abre_tela,
             3: self.__controlador_atividade.abre_tela,
             4: None,
-            5: None,
+            5: self.__controlador_tag.abre_tela,
             7: self.fechar_sistema
         }
 
@@ -66,6 +68,7 @@ class ControladorSistema:
         self.__controlador_periodo_letivo.dao.save_all()
         self.__controlador_disciplina.dao.save_all()
         self.__controlador_atividade.dao.save_all()
+        self.__controlador_tag.dao.save_all()
         exit(0)
 
     @property
@@ -83,3 +86,7 @@ class ControladorSistema:
     @property
     def controlador_atividade(self) -> ControladorAtividade:
         return self.__controlador_atividade
+
+    @property
+    def controlador_tag(self) -> ControladorTag:
+        return self.__controlador_tag

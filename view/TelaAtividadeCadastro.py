@@ -13,7 +13,7 @@ class TelaAtividadeCadastro(AbstractTela):
 
         super().__init__(controlador, nome_tela='Atividade')
 
-    def init_components(self, modo_edicao, data: Atividade, disciplinas: list):
+    def init_components(self, modo_edicao, data: Atividade, disciplinas: list, tags: list):
         layout = super().layout_tela_cadastro([
             {
                 'key': 'nome_atividade',
@@ -43,8 +43,8 @@ class TelaAtividadeCadastro(AbstractTela):
                 'label': mensagens_atividade.get('label_tag'),
                 'type': 'combo',
                 'default_value': '' if modo_edicao == False else 'Sem tag' if data.tag is None else data.tag.nome,
-                'values': ['Sem tag'],
-                'disabled': True  # Desabilita edição do campo se estiver editando uma atividade
+                'values': ['Sem tag', *[x.nome for x in tags]],
+                'disabled': False  # Desabilita edição do campo se estiver editando uma atividade
             },
             {
                 'key': 'prazo_de_entrega',
@@ -58,11 +58,11 @@ class TelaAtividadeCadastro(AbstractTela):
 
         super().set_tela_layout(layout, size=(300, 400))
 
-    def abrir_tela(self, modo_edicao, data: Atividade, disciplinas: list):
-        self.init_components(modo_edicao, data, disciplinas)
+    def abrir_tela(self, modo_edicao, data: Atividade, disciplinas: list, tags: list):
+        self.init_components(modo_edicao, data, disciplinas, tags)
 
         # Armazena para cada um dos inputs se ele está válido ou não.
-        valido = [modo_edicao] * 4
+        valido = [modo_edicao] * 5
 
         while True:
             event, values = super().abrir_tela()
@@ -94,6 +94,13 @@ class TelaAtividadeCadastro(AbstractTela):
                     'É preciso selecionar um grau de dificuldade'
                 )
                 continue
+            elif event == 'input_selecao_tag':
+                valido[3] = super().validar_input(
+                    event,
+                    values['input_selecao_tag'] == '',
+                    'É preciso selecionar uma tag'
+                )
+                continue
             elif event == 'input_prazo_de_entrega':
                 valido_prazo_entrega = [False, False, False]
 
@@ -120,7 +127,7 @@ class TelaAtividadeCadastro(AbstractTela):
                         'É preciso cadastrar no mínimo 3 dias antes'
                     )
 
-                valido[3] = valido_prazo_entrega[2]
+                valido[4] = valido_prazo_entrega[2]
                 continue
             elif event == 'btn_salvar':
                 # Verifica se todos os campos são válidos, se não forem, exibe mensagem de erro.
@@ -134,11 +141,14 @@ class TelaAtividadeCadastro(AbstractTela):
                     super().fechar_tela()
                     disciplina_escolhida = [
                         x.id for x in disciplinas if x.nome == values['input_selecao_disciplina']][0]
+                    tag_escolhida = [
+                        x.id for x in tags if x.nome == values['input_selecao_tag']]
 
                     return (
                         'criar', {
                             'nome': values['input_nome_atividade'],
                             'disciplina': disciplina_escolhida,
+                            'tag': tag_escolhida[0] if len(tag_escolhida) == 1 else None,
                             'grau_dificuldade': values['input_selecao_grau_dificuldade'],
                             'prazo_entrega': datetime.datetime.strptime(values['input_prazo_de_entrega'], "%d/%m/%Y")
                         }

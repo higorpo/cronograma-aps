@@ -15,6 +15,7 @@ class ControladorAtividade:
         self.__tela_cadastro = TelaAtividadeCadastro(self)
         self.__dao = AtividadeDAO()
         self.__disciplinas = controlador_sistema.controlador_disciplina.dao.get_all()
+        self.__tags = controlador_sistema.controlador_tag.dao.get_all()
 
     def __new__(cls, _):
         if ControladorAtividade.__instance is None:
@@ -49,15 +50,21 @@ class ControladorAtividade:
 
     def adicionar(self):
         event, dados_atividade = self.__tela_cadastro.abrir_tela(
-            False, None, self.__disciplinas)
+            False, None, self.__disciplinas, self.__tags)
 
         if event == 'criar':
             atividades = self.__dao.get_all()
             if len([x for x in atividades if x.nome == dados_atividade['nome']]) == 0:
                 disciplina_escolhida = [
                     x for x in self.__disciplinas if x.id == dados_atividade['disciplina']][0]
+
                 instancia_atividade = Atividade(
                     dados_atividade['nome'], disciplina_escolhida, dados_atividade['grau_dificuldade'], dados_atividade['prazo_entrega'])
+
+                tag_escolhida = None if dados_atividade['tag'] == None else [
+                    x for x in self.__tags if x.id == dados_atividade['tag']][0]
+
+                instancia_atividade.tag = tag_escolhida
 
                 self.__dao.add(instancia_atividade)
                 return instancia_atividade
@@ -77,7 +84,7 @@ class ControladorAtividade:
         atividade = self.__dao.get(codigo_atividade)
 
         event, dados_atividade = self.__tela_cadastro.abrir_tela(
-            True, atividade, self.__disciplinas)
+            True, atividade, self.__disciplinas, self.__tags)
 
         if event == 'exited':
             return
@@ -85,8 +92,12 @@ class ControladorAtividade:
             nome = dados_atividade.get('nome')
             grau_dificuldade = dados_atividade.get('grau_dificuldade')
             prazo_entrega = dados_atividade.get('prazo_entrega')
-            disciplina = [
-                x for x in self.__disciplinas if x.id == dados_atividade.get('disciplina')][0]
+
+            tag_escolhida = None if dados_atividade['tag'] == None else [
+                x for x in self.__tags if x.id == dados_atividade['tag']][0]
+
+            atividade.tag = tag_escolhida
+
             atividade.nome = nome
             atividade.grau_dificuldade = grau_dificuldade
             atividade.prazo_entrega = prazo_entrega
