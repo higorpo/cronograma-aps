@@ -1,6 +1,10 @@
 
+from __future__ import annotations
 import uuid
-from model.Atividade import Atividade
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from model.Atividade import Atividade
 
 
 class Anotacao:
