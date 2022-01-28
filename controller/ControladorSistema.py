@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+from dao.CronogramaDAO import CronogramaDAO
 from controller.ControladorAtividade import ControladorAtividade
 from controller.ControladorDisciplina import ControladorDisciplina
 from controller.ControladorPeriodoLetivo import ControladorPeriodoLetivo
@@ -12,6 +13,7 @@ class ControladorSistema:
     __instance = None
 
     def __init__(self):
+        self.__cronograma_dao = CronogramaDAO()
         self.__controlador_periodo_letivo = ControladorPeriodoLetivo(self)
         self.__controlador_disciplina = ControladorDisciplina(self)
         self.__controlador_tag = ControladorTag(self)
@@ -69,6 +71,7 @@ class ControladorSistema:
         self.__controlador_disciplina.dao.save_all()
         self.__controlador_atividade.dao.save_all()
         self.__controlador_tag.dao.save_all()
+        self.__cronograma_dao.save_all()
         exit(0)
 
     @property

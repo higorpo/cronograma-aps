@@ -18,6 +18,7 @@ class Atividade:
         self.__concluidaEm = None
         self.__tag = None
         self.__anotacoes: list()
+        self.__datas_alocado = []
 
     @property
     def id(self) -> uuid.UUID:
@@ -83,3 +84,6 @@ class Atividade:
             self.__anotacoes.remove(anotacao)
         else:
             raise NotFound()
+
+    def add_data_alocado(self, dia, mes, ano):
+        self.__datas_alocado.append([dia, mes, ano])
