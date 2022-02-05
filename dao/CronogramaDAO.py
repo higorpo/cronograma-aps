@@ -19,6 +19,8 @@ class CronogramaDAO:
             json.dump(self.__data, openfile)
 
     def add_atividade(self, atividade: Atividade):
+        mensagens_retorno = None
+
         # Verifica nível de dificuldade da atividade
         minutos_por_grau_dificuldade = {
             'fácil': 30,
@@ -58,9 +60,11 @@ class CronogramaDAO:
             # Verifica se estourou o máximo de blocos de estudos por dias
             if len(self.get_atividades_na_data(agora.day, agora.month, agora.year)) > 8:
                 print(
-                    f'Alocado mais blocos no dia {agora.day} do que o habitual'
+                    f'Alocado mais blocos no dia {agora.day}/{agora.month}/{agora.year} do que o habitual'
                 )
-            return
+                mensagens_retorno = f'Alocado mais blocos na data {agora.day}/{agora.month}/{agora.year} do que o habitual'
+
+            return mensagens_retorno
 
         datas_para_alocar = self.verifica_dias_possivel_para_alocar(
             atividade,
@@ -79,6 +83,8 @@ class CronogramaDAO:
                 )
 
             self.save_all()
+
+            return None
         else:
             print('Não há dias suficientes para alocar todos os blocos necessários')
 
@@ -96,8 +102,11 @@ class CronogramaDAO:
                     print(
                         f'Alocado mais blocos no dia {prazo_entrega_datetime.day} do que o habitual'
                     )
+                    mensagens_retorno = f'Alocado mais blocos no data {prazo_entrega_datetime.day}/{prazo_entrega_datetime.month}/{prazo_entrega_datetime.year} do que o habitual'
 
                 self.save_all()
+
+                return mensagens_retorno
             else:
                 # Se for mais de um bloco, então verifica se consegue então alocar tudo com 2 blocos por dia
                 datas_para_alocar = self.verifica_dias_possivel_para_alocar(
@@ -124,9 +133,12 @@ class CronogramaDAO:
                         )
 
                     print(
-                        'Todos os blocos foram alocados, com dois por dia, sem estourar o máximo de 8 por dia.'
+                        'Atividade alocada com dois blocos de estudo por dia sem estourar o máximo de 8 blocos diários.'
                     )
+
                     self.save_all()
+
+                    return 'Atividade alocada com dois blocos de estudo por dia sem estourar o máximo de 8 blocos diários.'
                 else:
                     print('Ainda assim não conseguiu alocar.')
 
@@ -168,12 +180,15 @@ class CronogramaDAO:
                             data_atual = data_atual + timedelta(days=1)
 
                     print(
-                        'Todos os blocos foram alocados, um bloco por dia, com possibilidade de estourar o máximo de 8 por dia.'
+                        'Atividade alocada com um bloco por dia com a possibilidade de estourar o máximo de 8 blocos diários.'
                     )
+
                     self.save_all()
 
+                    return 'Atividade alocada com um bloco por dia com a possibilidade de estourar o máximo de 8 blocos diários.'
+
     def alocar_atividade_em_data(self, dia, mes, ano, atividade: Atividade):
-        # atividade.add_data_alocado(dia, mes, ano)
+        atividade.add_data_alocado(dia, mes, ano)
         self.set_value_to_data(dia, mes, ano, str(atividade.id))
 
     def get_atividades_na_data(self, dia, mes, ano):
@@ -191,6 +206,11 @@ class CronogramaDAO:
             self.save_all()
         except Exception:
             print('Um erro ocorreu!')
+
+    def deleta_alocacao_atividade(self, atividade: Atividade):
+        for [dia, mes, ano] in atividade.datas_alocado():
+            print('Deletando atividade no: ', dia, mes, ano)
+            self.deleta_atividade_na_data(dia, mes, ano, atividade)
 
     def pode_alocar_atividade_em_data(self, dia, mes, ano, blocos_por_dia):
         return len(self.get_atividades_na_data(dia, mes, ano)) < 8 - (blocos_por_dia - 1)

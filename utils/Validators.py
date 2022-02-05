@@ -62,7 +62,7 @@ class Validators:
 
     def validar_data_min_3_days(data: str):
         min_date = datetime.datetime.strptime(
-            data, "%d/%m/%Y") - datetime.timedelta(days=3)
+            data, "%d/%m/%Y") - datetime.timedelta(days=2)
         if min_date <= datetime.datetime.now():
             return False
         else:

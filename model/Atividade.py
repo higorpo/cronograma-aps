@@ -76,10 +76,10 @@ class Atividade:
     def anotacoes(self) -> List[Anotacao]:
         return self.__anotacoes
 
-    def addAnotacao(self, texto_anotacao: str):
+    def add_anotacao(self, texto_anotacao: str):
         self.__anotacoes.push(Anotacao(texto_anotacao, self))
 
-    def deleteAnotacao(self, anotacao: Anotacao):
+    def delete_anotacao(self, anotacao: Anotacao):
         if anotacao in self.__anotacoes:
             self.__anotacoes.remove(anotacao)
         else:
@@ -87,3 +87,6 @@ class Atividade:
 
     def add_data_alocado(self, dia, mes, ano):
         self.__datas_alocado.append([dia, mes, ano])
+
+    def datas_alocado(self):
+        return self.__datas_alocado

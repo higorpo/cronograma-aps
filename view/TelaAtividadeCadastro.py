@@ -124,7 +124,7 @@ class TelaAtividadeCadastro(AbstractTela):
                         event,
                         not Validators.validar_data_min_3_days(
                             values['input_prazo_de_entrega']),
-                        'É preciso cadastrar no mínimo 3 dias antes'
+                        'É preciso cadastrar no mínimo 3 dias antes do prazo de entrega'
                     )
 
                 valido[4] = valido_prazo_entrega[2]

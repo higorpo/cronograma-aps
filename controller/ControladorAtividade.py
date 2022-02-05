@@ -1,4 +1,5 @@
 from dao.AtividadeDAO import AtividadeDAO
+from dao.CronogramaDAO import CronogramaDAO
 from messages.Atividade import mensagens_atividade
 from model.Atividade import Atividade
 from utils.exceptions.TelaFechada import TelaFechada
@@ -14,6 +15,7 @@ class ControladorAtividade:
         self.__tela = TelaAtividade(self)
         self.__tela_cadastro = TelaAtividadeCadastro(self)
         self.__dao = AtividadeDAO()
+        self.__cronograma_dao = CronogramaDAO()
         self.__disciplinas = controlador_sistema.controlador_disciplina.dao.get_all()
         self.__tags = controlador_sistema.controlador_tag.dao.get_all()
 
@@ -25,6 +27,10 @@ class ControladorAtividade:
     @property
     def dao(self) -> AtividadeDAO:
         return self.__dao
+
+    @property
+    def cronograma_dao(self) -> CronogramaDAO:
+        return self.__cronograma_dao
 
     def abre_tela(self):
         while True:
@@ -46,7 +52,11 @@ class ControladorAtividade:
                     .mensagem_sistema.warning('Ainda não implementado!')
 
     def map_object_to_array(self):
-        return list(map(lambda item: [item.id, item.nome, item.disciplina.nome, 'Sem tag' if item.tag is None else item.tag.nome, item.grau_dificuldade, item.prazo_entrega], self.__dao.get_all()))
+        graus_dificuldade_tempo = {
+            'fácil': 30, 'médio': 60, 'díficil': 90, 'muito difícil': 120
+        }
+
+        return list(map(lambda item: [item.id, item.nome, item.disciplina.nome, 'Sem tag' if item.tag is None else item.tag.nome, item.grau_dificuldade, item.prazo_entrega, graus_dificuldade_tempo[item.grau_dificuldade]], self.__dao.get_all()))
 
     def adicionar(self):
         event, dados_atividade = self.__tela_cadastro.abrir_tela(
@@ -66,7 +76,16 @@ class ControladorAtividade:
 
                 instancia_atividade.tag = tag_escolhida
 
+                mensagem_retorno = self.__cronograma_dao.add_atividade(
+                    instancia_atividade)
+
+                if mensagem_retorno is not None:
+                    self.__controlador_sistema.mensagem_sistema.info(
+                        mensagem_retorno
+                    )
+
                 self.__dao.add(instancia_atividade)
+
                 return instancia_atividade
             else:
                 self.__controlador_sistema\
@@ -75,6 +94,7 @@ class ControladorAtividade:
     def excluir(self, codigo_atividade):
         try:
             atividade = self.__dao.get(codigo_atividade)
+            self.__cronograma_dao.deleta_alocacao_atividade(atividade)
             self.__dao.remove(atividade)
         except Exception:
             self.__controlador_sistema\

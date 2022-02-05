@@ -10,11 +10,11 @@ class TelaAtividade(AbstractTela):
 
     def init_components(self, data):
         headings = ['Código', 'Nome da atividade', 'Disciplina',
-                    'Tag', 'Grau de dificuldade', 'Prazo de entrega']
+                    'Tag', 'Grau de dificuldade', 'Prazo de entrega', 'Tempo recomendado (em minutos)']
         layout = super()\
             .layout_tela_lista(headings=headings, values=data, modulo_nome='atividade', btn_visualizar_enabled=True)
 
-        super().set_tela_layout(layout)
+        super().set_tela_layout(layout, size=(980, 680))
 
     def abrir_tela(self, data):
         self.init_components(data)
