@@ -12,7 +12,7 @@ class TelaAtividade(AbstractTela):
         headings = ['Código', 'Nome da atividade', 'Disciplina',
                     'Tag', 'Grau de dificuldade', 'Prazo de entrega', 'Tempo recomendado (em minutos)']
         layout = super()\
-            .layout_tela_lista(headings=headings, values=data, modulo_nome='atividade', btn_visualizar_enabled=True)
+            .layout_tela_lista(headings=headings, values=data, modulo_nome='atividade', btn_visualizar_enabled=False)  # TODO: Habilitar botão
 
         super().set_tela_layout(layout, size=(980, 680))
 

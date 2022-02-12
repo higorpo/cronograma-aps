@@ -46,10 +46,10 @@ class ControladorAtividade:
             elif event == 'btn_editar':
                 self.__tela.fechar_tela()
                 self.editar(values)
-            elif event == 'btn_visualizar':
-                self.__tela.fechar_tela()
-                self.__controlador_sistema\
-                    .mensagem_sistema.warning('Ainda não implementado!')
+            # elif event == 'btn_visualizar':
+            #     self.__tela.fechar_tela()
+            #     self.__controlador_sistema\
+            #         .mensagem_sistema.warning('Ainda não implementado!')
 
     def map_object_to_array(self):
         graus_dificuldade_tempo = {
@@ -76,7 +76,7 @@ class ControladorAtividade:
 
                 instancia_atividade.tag = tag_escolhida
 
-                mensagem_retorno = self.__cronograma_dao.add_atividade(
+                mensagem_retorno = self.__cronograma_dao.aloca_atividade(
                     instancia_atividade)
 
                 if mensagem_retorno is not None:
@@ -85,8 +85,6 @@ class ControladorAtividade:
                     )
 
                 self.__dao.add(instancia_atividade)
-
-                return instancia_atividade
             else:
                 self.__controlador_sistema\
                     .mensagem_sistema.warning(mensagens_atividade.get('ja_cadastrado'))
