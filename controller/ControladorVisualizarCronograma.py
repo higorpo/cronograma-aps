@@ -66,7 +66,6 @@ class ControladorVisualizarCronograma:
             lista_dias_da_semana_formatados.append(f'{dia}/{mes}')
 
         for i in range(7):
-            #print(f'Dia da semana: {lista_dias_da_semana_formatados[i]}')
             lista_id_atividades_do_dia = self.__cronograma_dao.get_atividades_na_data(
                 semana_atual[i][0], semana_atual[i][1], semana_atual[i][2])
 

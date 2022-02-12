@@ -106,9 +106,7 @@ class TelaVisualizarCronograma(AbstractTela):
             elif 'excluir_' in event:
                 escolha, _ = sg.Window('Atenção!', [[sg.T('Isso irá excluir todos blocos alocados para esta atividade. Deseja continuar?')], [
                     sg.Yes(s=10, button_text='Sim'), sg.No(s=10, button_text='Não')]], disable_close=True, modal=True).read(close=True)
-                # escolha = sg.popup_yes_no(
-                #     "Isso irá excluir todos blocos alocados para esta atividade. Deseja continuar?", custom_text=('Sim', 'Não'))
-                print(escolha)
+
                 if escolha == 'Sim':
                     _, id_atividade_excluida = event.split('_')
                     return (event, id_atividade_excluida)
