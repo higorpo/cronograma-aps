@@ -58,13 +58,17 @@ class ControladorAtividade:
 
         return list(map(lambda item: [item.id, item.nome, item.disciplina.nome, 'Sem tag' if item.tag is None else item.tag.nome, item.grau_dificuldade, item.prazo_entrega, graus_dificuldade_tempo[item.grau_dificuldade]], self.__dao.get_all()))
 
+    def __existe_atividade_cadastrada(self, nome_atividade):
+        atividades = self.__dao.get_all()
+        return len([x for x in atividades if x.nome == nome_atividade]) == 0
+
     def adicionar(self):
         event, dados_atividade = self.__tela_cadastro.abrir_tela(
             False, None, self.__disciplinas, self.__tags)
 
         if event == 'criar':
-            atividades = self.__dao.get_all()
-            if len([x for x in atividades if x.nome == dados_atividade['nome']]) == 0:
+
+            if self.__existe_atividade_cadastrada(dados_atividade["nome"]):
                 disciplina_escolhida = [
                     x for x in self.__disciplinas if x.id == dados_atividade['disciplina']][0]
 
