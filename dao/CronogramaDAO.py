@@ -199,7 +199,7 @@ class CronogramaDAO:
         atividade.add_data_alocado(dia, mes, ano)
         self.__set_value_to_data(dia, mes, ano, str(atividade.id))
 
-    def __get_atividades_na_data(self, dia, mes, ano):
+    def get_atividades_na_data(self, dia, mes, ano):
         atividades_alocadas_no_dia = self.__data \
             .get(str(ano), {}) \
             .get(str(mes), {}) \

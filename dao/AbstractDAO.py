@@ -1,5 +1,5 @@
 from abc import ABC
-import pickle5 as pickle
+import pickle as pickle
 
 
 class DAO(ABC):
