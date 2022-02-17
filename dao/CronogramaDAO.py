@@ -66,7 +66,7 @@ class CronogramaDAO:
             self.__save_all()
 
             # Verifica se estourou o máximo de blocos de estudos por dias
-            if len(self.__get_atividades_na_data(agora.day, agora.month, agora.year)) > 8:
+            if len(self.get_atividades_na_data(agora.day, agora.month, agora.year)) > 8:
                 print(
                     f'Alocado mais blocos no dia {agora.day}/{agora.month}/{agora.year} do que o habitual'
                 )
@@ -106,7 +106,7 @@ class CronogramaDAO:
                 )
 
                 # Verifica se estourou o máximo de blocos de estudos por dias
-                if len(self.__get_atividades_na_data(prazo_entrega_datetime.day, prazo_entrega_datetime.month, prazo_entrega_datetime.year)) > 8:
+                if len(self.get_atividades_na_data(prazo_entrega_datetime.day, prazo_entrega_datetime.month, prazo_entrega_datetime.year)) > 8:
                     print(
                         f'Alocado mais blocos no dia {prazo_entrega_datetime.day} do que o habitual'
                     )
@@ -221,7 +221,7 @@ class CronogramaDAO:
             self.__deleta_atividade_na_data(dia, mes, ano, atividade)
 
     def __pode_alocar_atividade_em_data(self, dia, mes, ano, blocos_por_dia):
-        return len(self.__get_atividades_na_data(dia, mes, ano)) < 8 - (blocos_por_dia - 1)
+        return len(self.get_atividades_na_data(dia, mes, ano)) < 8 - (blocos_por_dia - 1)
 
     def __set_value_to_data(self, dia, mes, ano, atividade_id):
         d_ano = self.__data.get(str(ano), {})
