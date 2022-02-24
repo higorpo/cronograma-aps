@@ -38,6 +38,9 @@ class CronogramaDAO:
             atividade.prazo_entrega, "%d/%m/%Y"
         ) - timedelta(days=3)
 
+    def __alocou_mais_que_8_blocos(self, dia, mes, ano):
+        return len(self.get_atividades_na_data(dia, mes, ano)) > 8
+
     def aloca_atividade(self, atividade: Atividade):
         mensagens_retorno = None
 
@@ -66,7 +69,7 @@ class CronogramaDAO:
             self.__save_all()
 
             # Verifica se estourou o máximo de blocos de estudos por dias
-            if len(self.get_atividades_na_data(agora.day, agora.month, agora.year)) > 8:
+            if self.__alocou_mais_que_8_blocos(agora.day, agora.month, agora.year):
                 print(
                     f'Alocado mais blocos no dia {agora.day}/{agora.month}/{agora.year} do que o habitual'
                 )
