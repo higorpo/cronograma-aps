@@ -41,8 +41,9 @@ class ControladorDisciplina:
                 self.editar(values)
             elif event == 'btn_visualizar':
                 self.__tela.fechar_tela()
-                self.__controlador_sistema\
-                    .mensagem_sistema.warning('Ainda não implementado!')
+                self.__controlador_sistema.controlador_atividade_disciplina.abre_tela(
+                    values  # Código disciplina
+                )
 
     def map_object_to_array(self):
         return list(map(lambda item: [item.id, item.nome, item.periodo_letivo.nome], self.__dao.get_all()))

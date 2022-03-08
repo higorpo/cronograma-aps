@@ -15,3 +15,7 @@ class AtividadeDAO(DAO):
     def remove(self, atividade: Atividade):
         if ((atividade is not None) and isinstance(atividade, Atividade) and isinstance(atividade.id, uuid.UUID)):
             super().remove(atividade.id)
+
+    def get_all_by_disciplina(self, disciplina: str):
+        if (disciplina is not None):
+            return filter(lambda item: item.disciplina.id == disciplina, self.get_all())
