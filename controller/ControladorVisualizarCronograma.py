@@ -73,7 +73,7 @@ class ControladorVisualizarCronograma:
             lista_obj_atividades = []
 
             for atividade in lista_todas_atividades:
-                if str(atividade.id) in lista_id_atividades_do_dia and atividade.concluidaEm == None:
+                if str(atividade.id) in lista_id_atividades_do_dia and atividade.concluida_em == None:
                     lista_obj_atividades.append(atividade)
 
             dict_atividades_da_semana[i] = list(
@@ -104,12 +104,17 @@ class ControladorVisualizarCronograma:
         return NotImplementedError
 
     def concluir(self, codigo_atividade: str):
+        if len(codigo_atividade) > 36:
+            codigo_atividade = codigo_atividade[:-1]
+        print(f"codigo da atividade: {codigo_atividade}")
         atividade = self.atividade_dao.get(UUID(codigo_atividade))
         self.__controlador_sistema.controlador_concluir_atividade.abre_tela(
             atividade)
 
     def excluir(self, codigo_atividade: str):
         try:
+            if len(codigo_atividade) > 36:
+                codigo_atividade = codigo_atividade[:-1]
             atividade = self.atividade_dao.get(UUID(codigo_atividade))
             self.cronograma_dao.deleta_alocacao_atividade(atividade)
             self.atividade_dao.remove(atividade)

@@ -15,7 +15,7 @@ class Atividade:
         self.__disciplina = disciplina
         self.__grau_dificuldade = grau_dificuldade
         self.__prazo_entrega = prazo_entrega
-        self.__concluidaEm = None
+        self.__concluida_em = None
         self.__tag = None
         self.__anotacoes: list()
         self.__datas_alocado = []
@@ -53,16 +53,16 @@ class Atividade:
         self.__prazo_entrega = prazo_entrega
 
     @property
-    def isConcluida(self) -> bool:
-        return self.__concluidaEm is not None
+    def is_concluida(self) -> bool:
+        return self.__concluida_em is not None
 
     @property
-    def concluidaEm(self) -> datetime:
-        return self.__concluidaEm
+    def concluida_em(self) -> datetime:
+        return self.__concluida_em
 
-    @concluidaEm.setter
-    def concluidaEm(self, concluidaEm: str):
-        self.__concluidaEm = concluidaEm
+    @concluida_em.setter
+    def concluida_em(self, concluida_em: str):
+        self.__concluida_em = concluida_em
 
     @property
     def tag(self) -> Tag:

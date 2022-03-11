@@ -33,6 +33,6 @@ class ControladorConcluirAtividade:
 
     def concluir(self, marcou_concluida: bool, atividade: Atividade):
         if marcou_concluida:
-            atividade.concluidaEm = datetime.today().strftime("%d/%m/%Y")
+            atividade.concluida_em = datetime.today().strftime("%d/%m/%Y")
             self.__atividade_dao.remove(atividade)
             self.__atividade_dao.add(atividade)
