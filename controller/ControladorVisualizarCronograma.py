@@ -32,15 +32,14 @@ class ControladorVisualizarCronograma:
         while True:
             event, values = self.__tela.abrir_tela(
                 self.map_atividades_to_dict())
-            print(values)
             if event == 'exited':
                 break
             elif 'criar_' in event:
                 # Redireciona para a tela de criar anotações
                 print('texto criar nota foi clicado')
             elif 'concluir_' in event:
-                # Abre tela de concluir atividade
-                print('texto concluir foi clicado')
+                self.__tela.fechar_tela()
+                self.concluir(values)
             elif 'excluir_' in event:
                 self.__tela.fechar_tela()
                 self.excluir(values)
@@ -65,17 +64,35 @@ class ControladorVisualizarCronograma:
             mes = f'0{data[1]}' if data[1] < 10 else f'{data[1]}'
             lista_dias_da_semana_formatados.append(f'{dia}/{mes}')
 
+        self.__cronograma_dao.load_data()
+        print('fez as paradas')
+
         for i in range(7):
             lista_id_atividades_do_dia = self.__cronograma_dao.get_atividades_na_data(
                 semana_atual[i][0], semana_atual[i][1], semana_atual[i][2])
 
+            for id_atividade_na_data in lista_id_atividades_do_dia:
+                atividade = self.__atividade_dao.get(
+                    UUID(id_atividade_na_data))
+                if atividade != None:
+                    print(f"\nAtividades na data: ${i}")
+                    print(f"{atividade.nome}")
+
             lista_todas_atividades = self.__atividade_dao.get_all()
+
+            if i == 1:
+                for atividade_todas in lista_todas_atividades:
+                    if atividade_todas != None:
+                        print("\nTodas as atividades:")
+                        print(f"{atividade_todas.nome}")
 
             lista_obj_atividades = []
 
             for atividade in lista_todas_atividades:
-                if str(atividade.id) in lista_id_atividades_do_dia:
+                if str(atividade.id) in lista_id_atividades_do_dia and atividade.concluidaEm == None:
                     lista_obj_atividades.append(atividade)
+                    print("entrou")
+                    print(atividade.nome)
 
             dict_atividades_da_semana[i] = list(
                 map(lambda atividade: {
@@ -103,9 +120,10 @@ class ControladorVisualizarCronograma:
     def criar_nota(self):
         return NotImplementedError
 
-    # TODO: implentar lógica para concluir a atividade
-    def concluir(self):
-        return NotImplementedError
+    def concluir(self, codigo_atividade: str):
+        atividade = self.__atividade_dao.get(UUID(codigo_atividade))
+        self.__controlador_sistema.controlador_concluir_atividade.abre_tela(
+            atividade)
 
     def excluir(self, codigo_atividade: str):
         try:

@@ -1,6 +1,7 @@
 import PySimpleGUI as sg
 from controller.ControladorAtividade import ControladorAtividade
 from controller.ControladorAtividadeDisciplina import ControladorAtividadeDisciplina
+from controller.ControladorConcluirAtividade import ControladorConcluirAtividade
 from controller.ControladorDisciplina import ControladorDisciplina
 from controller.ControladorPeriodoLetivo import ControladorPeriodoLetivo
 from controller.ControladorTag import ControladorTag
@@ -21,6 +22,8 @@ class ControladorSistema:
         self.__controlador_atividade_disciplina = ControladorAtividadeDisciplina(
             self)
         self.__controlador_visualizar_cronograma = ControladorVisualizarCronograma(
+            self)
+        self.__controlador_concluir_atividade = ControladorConcluirAtividade(
             self)
         self.__tela_sistema = TelaSistema(self)
         self.__tela_mensagem_sistema = TelaMensagemSistema(self)
@@ -105,3 +108,7 @@ class ControladorSistema:
     @property
     def controlador_visualizar_cronograma(self) -> ControladorVisualizarCronograma:
         return self.__controlador_visualizar_cronograma
+
+    @property
+    def controlador_concluir_atividade(self) -> ControladorConcluirAtividade:
+        return self.__controlador_concluir_atividade

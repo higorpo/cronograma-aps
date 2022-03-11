@@ -14,9 +14,13 @@ class CronogramaDAO:
         with open(FILE_LOCATION, 'r') as openfile:
             self.__data: dict = json.load(openfile)
 
-    def __save_all(self):
+    def save_all(self):
         with open(FILE_LOCATION, 'w') as openfile:
             json.dump(self.__data, openfile)
+
+    def load_data(self):
+        with open(FILE_LOCATION, 'r') as openfile:
+            self.__data: dict = json.load(openfile)
 
     def __descobre_quantos_blocos_alocar(self, atividade: Atividade):
         # Verifica nível de dificuldade da atividade
@@ -66,7 +70,7 @@ class CronogramaDAO:
                     atividade
                 )
 
-            self.__save_all()
+            self.save_all()
 
             # Verifica se estourou o máximo de blocos de estudos por dias
             if self.__alocou_mais_que_8_blocos(agora.day, agora.month, agora.year):
@@ -93,7 +97,7 @@ class CronogramaDAO:
                     atividade
                 )
 
-            self.__save_all()
+            self.save_all()
 
             return None
         else:
@@ -115,7 +119,7 @@ class CronogramaDAO:
                     )
                     mensagens_retorno = f'Alocado mais blocos no data {prazo_entrega_datetime.day}/{prazo_entrega_datetime.month}/{prazo_entrega_datetime.year} do que o habitual'
 
-                self.__save_all()
+                self.save_all()
 
                 return mensagens_retorno
             else:
@@ -147,7 +151,7 @@ class CronogramaDAO:
                         'Atividade alocada com dois blocos de estudo por dia sem estourar o máximo de 8 blocos diários.'
                     )
 
-                    self.__save_all()
+                    self.save_all()
 
                     return 'Atividade alocada com dois blocos de estudo por dia sem estourar o máximo de 8 blocos diários.'
                 else:
@@ -194,7 +198,7 @@ class CronogramaDAO:
                         'Atividade alocada com um bloco por dia com a possibilidade de estourar o máximo de 8 blocos diários.'
                     )
 
-                    self.__save_all()
+                    self.save_all()
 
                     return 'Atividade alocada com um bloco por dia com a possibilidade de estourar o máximo de 8 blocos diários.'
 
@@ -214,7 +218,7 @@ class CronogramaDAO:
         try:
             self.__data[str(ano)][str(mes)][str(dia)] = list(
                 filter((str(atividade.id)).__ne__, self.__data[str(ano)][str(mes)][str(dia)]))
-            self.__save_all()
+            self.save_all()
         except Exception:
             print('Um erro ocorreu!')
 

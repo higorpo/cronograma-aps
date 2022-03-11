@@ -66,6 +66,17 @@ class AbstractTela(ABC):
                     enable_events=True,
                     disabled=input['disabled'] if 'disabled' in input else False
                 )
+            elif input['type'] == 'checkbox':
+                inputElement = sg.Checkbox(
+                    input['text'],
+                    key='input_' + input['key'],
+                    default=False,
+                    size=(21, 8),
+                    font=('Arial', 12),
+                    enable_events=True,
+                    background_color='#ffffff',
+                    disabled=input['disabled'] if 'disabled' in input else False
+                )
 
             return [
                 sg.Column([

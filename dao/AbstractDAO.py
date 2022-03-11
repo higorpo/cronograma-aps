@@ -18,6 +18,9 @@ class DAO(ABC):
     def __load(self):
         self.__cache = pickle.load(open(self.__datasource, 'rb'))
 
+    def load_data(self):
+        self.__load()
+
     def save_all(self):
         self.__dump()
 

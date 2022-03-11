@@ -99,10 +99,8 @@ class TelaVisualizarCronograma(AbstractTela):
                     title='Erro'
                 )
             elif 'concluir_' in event:
-                sg.popup_no_buttons(
-                    'Ainda não implementado!',
-                    title='Erro'
-                )
+                _, id_atividade_para_concluir = event.split('_')
+                return (event, id_atividade_para_concluir)
             elif 'excluir_' in event:
                 escolha, _ = sg.Window('Atenção!', [[sg.T('Isso irá excluir todos blocos alocados para esta atividade. Deseja continuar?')], [
                     sg.Yes(s=10, button_text='Sim'), sg.No(s=10, button_text='Não')]], disable_close=True, modal=True).read(close=True)
