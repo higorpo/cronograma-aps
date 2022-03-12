@@ -5,6 +5,7 @@ mensagens_sistema = {
     'voltar': '<-- Voltar',
     'erro_interrompeu_entrada': 'ERRO: Você interrompeu a entrada de dados via teclado...',
     'menu_cronograma': 'Cronograma semanal',
+    'menu_relatorio_atividade_concluida': 'Relatório de atividades concluídas',
     'menu_periodos_letivos': 'Períodos letivos',
     'menu_disciplinas': 'Disciplinas',
     'menu_atividades': 'Atividades',

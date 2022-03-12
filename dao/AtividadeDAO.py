@@ -19,3 +19,6 @@ class AtividadeDAO(DAO):
     def get_all_by_disciplina(self, disciplina: str):
         if (disciplina is not None):
             return filter(lambda item: item.disciplina.id == disciplina, self.get_all())
+
+    def get_atividades_concluidas(self):
+        return filter(lambda item: item.is_concluida == True, self.get_all())

@@ -2,15 +2,15 @@ from view.AbstractTela import AbstractTela
 import PySimpleGUI as sg
 
 
-class TelaAtividadeDisciplina(AbstractTela):
+class TelaRelatorioAtividadeConcluida(AbstractTela):
     def __init__(self, controlador):
         sg.ChangeLookAndFeel('Reddit')
 
-        super().__init__(controlador, nome_tela='Atividades com base em disciplina')
+        super().__init__(controlador, nome_tela='Atividades concluídas')
 
     def init_components(self, data):
         headings = ['Código', 'Nome da atividade', 'Disciplina',
-                    'Tag', 'Grau de dificuldade', 'Prazo de entrega', 'Tempo recomendado (em minutos)']
+                    'Tag', 'Grau de dificuldade', 'Data de entrega', 'Concluída em']
         layout = super()\
             .layout_tela_lista(headings=headings, values=data, modulo_nome='atividade', btn_visualizar_enabled=False, btn_confirmar_enabled=False, btn_deletar_enabled=False, btn_cadastrar_enabled=False, btn_editar_enabled=False)  # TODO: Habilitar botão
 
