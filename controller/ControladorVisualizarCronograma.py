@@ -29,7 +29,7 @@ class ControladorVisualizarCronograma:
     def abre_tela(self):
         while True:
             event, values = self.__tela.abrir_tela(
-                self.map_atividades_to_dict()
+                self.__map_atividades_to_dict()
             )
             if event == 'exited':
                 break
@@ -43,7 +43,7 @@ class ControladorVisualizarCronograma:
                 self.__tela.fechar_tela()
                 self.excluir(values)
 
-    def map_atividades_to_dict(self):
+    def __map_atividades_to_dict(self):
 
         dict_atividades_da_semana = {
             0: [],

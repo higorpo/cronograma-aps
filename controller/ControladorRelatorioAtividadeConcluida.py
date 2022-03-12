@@ -22,7 +22,7 @@ class ControladorRelatorioAtividadeConcluida:
         return self.__controlador_sistema.controlador_atividade.dao
 
     def abre_tela(self):
-        self.__tela.abrir_tela(self.map_object_to_array())
+        self.__tela.abrir_tela(self.__map_object_to_array())
 
-    def map_object_to_array(self):
+    def __map_object_to_array(self):
         return list(map(lambda item: [item.id, item.nome, item.disciplina.nome, 'Sem tag' if item.tag is None else item.tag.nome, item.grau_dificuldade, item.prazo_entrega, item.concluida_em], self.dao.get_atividades_concluidas()))

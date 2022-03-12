@@ -27,7 +27,9 @@ class ControladorDisciplina:
 
     def abre_tela(self):
         while True:
-            event, values = self.__tela.abrir_tela(self.map_object_to_array())
+            event, values = self.__tela.abrir_tela(
+                self.__map_object_to_array()
+            )
             if event == 'exited':
                 break
             elif event == 'btn_cadastrar':
@@ -45,7 +47,7 @@ class ControladorDisciplina:
                     values  # Código disciplina
                 )
 
-    def map_object_to_array(self):
+    def __map_object_to_array(self):
         return list(map(lambda item: [item.id, item.nome, item.periodo_letivo.nome], self.__dao.get_all()))
 
     def adicionar(self):
@@ -95,16 +97,6 @@ class ControladorDisciplina:
                 x for x in self.__periodos_letivos if x.id == dados_disciplina.get('periodo_letivo')][0]
             disciplina.nome = nome
             disciplina.periodo_letivo = periodo_letivo
-
-    def buscar(self) -> Disciplina:
-        event, key = self.__tela_selecao.abrir_tela(
-            self.map_object_to_array()
-        )
-
-        if event == 'exited':
-            raise TelaFechada
-        elif event == 'selecionado':
-            return self.__dao.get(key)
 
     @property
     def disciplinas(self):

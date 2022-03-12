@@ -19,9 +19,9 @@ class ControladorAtividadeDisciplina:
         return self.__controlador_sistema.controlador_atividade.dao
 
     def abre_tela(self, codigo_disciplina):
-        self.__tela.abrir_tela(self.map_object_to_array(codigo_disciplina))
+        self.__tela.abrir_tela(self.__map_object_to_array(codigo_disciplina))
 
-    def map_object_to_array(self, codigo_disciplina):
+    def __map_object_to_array(self, codigo_disciplina):
         graus_dificuldade_tempo = {
             'fácil': 30, 'médio': 60, 'díficil': 90, 'muito difícil': 120
         }

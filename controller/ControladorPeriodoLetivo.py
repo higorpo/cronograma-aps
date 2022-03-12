@@ -28,7 +28,9 @@ class ControladorPeriodoLetivo:
 
     def abre_tela(self):
         while True:
-            event, values = self.__tela.abrir_tela(self.map_object_to_array())
+            event, values = self.__tela.abrir_tela(
+                self.__map_object_to_array()
+            )
             if event == 'exited':
                 break
             elif event == 'btn_cadastrar':
@@ -45,7 +47,7 @@ class ControladorPeriodoLetivo:
                 self.__controlador_sistema\
                     .mensagem_sistema.warning('Ainda não implementado!')
 
-    def map_object_to_array(self):
+    def __map_object_to_array(self):
         return list(map(lambda item: [item.id, item.nome], self.__dao.get_all()))
 
     def adicionar(self):
@@ -89,17 +91,3 @@ class ControladorPeriodoLetivo:
         elif event == 'criar':
             nome = dados_periodo_letivo.get('nome')
             periodo_letivo.nome = nome
-
-    def buscar(self) -> PeriodoLetivo:
-        event, key = self.__tela_selecao.abrir_tela(
-            self.map_object_to_array()
-        )
-
-        if event == 'exited':
-            raise TelaFechada
-        elif event == 'selecionado':
-            return self.__dao.get(key)
-
-    @ property
-    def periodo_letivos(self):
-        return self.__dao.get_all()

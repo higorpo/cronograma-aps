@@ -18,11 +18,11 @@ class ControladorConcluirAtividade:
         return ControladorConcluirAtividade.__instance
 
     @property
-    def atividade_dao(self) -> AtividadeDAO:
+    def __atividade_dao(self) -> AtividadeDAO:
         return self.__controlador_sistema.controlador_atividade.dao
 
     @property
-    def cronograma_dao(self) -> CronogramaDAO:
+    def __cronograma_dao(self) -> CronogramaDAO:
         return self.__controlador_sistema.controlador_atividade.cronograma_dao
 
     def abre_tela(self, atividade: Atividade):
@@ -32,12 +32,12 @@ class ControladorConcluirAtividade:
                 break
             elif event == 'btn_salvar':
                 self.__tela.fechar_tela()
-                self.concluir(values["marcou_concluida"], atividade)
+                self.__concluir(values["marcou_concluida"], atividade)
                 break
 
-    def concluir(self, marcou_concluida: bool, atividade: Atividade):
+    def __concluir(self, marcou_concluida: bool, atividade: Atividade):
         if marcou_concluida:
             atividade.concluida_em = datetime.today().strftime("%d/%m/%Y")
-            self.cronograma_dao.deleta_alocacao_atividade(atividade)
-            self.atividade_dao.remove(atividade)
-            self.atividade_dao.add(atividade)
+            self.__cronograma_dao.deleta_alocacao_atividade(atividade)
+            self.__atividade_dao.remove(atividade)
+            self.__atividade_dao.add(atividade)

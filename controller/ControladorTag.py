@@ -26,7 +26,9 @@ class ControladorTag:
 
     def abre_tela(self):
         while True:
-            event, values = self.__tela.abrir_tela(self.map_object_to_array())
+            event, values = self.__tela.abrir_tela(
+                self.__map_object_to_array()
+            )
             if event == 'exited':
                 break
             elif event == 'btn_cadastrar':
@@ -43,7 +45,7 @@ class ControladorTag:
                 self.__controlador_sistema\
                     .mensagem_sistema.warning('Ainda não implementado!')
 
-    def map_object_to_array(self):
+    def __map_object_to_array(self):
         return list(map(lambda item: [item.id, item.nome], self.__dao.get_all()))
 
     def adicionar(self):
@@ -86,7 +88,3 @@ class ControladorTag:
         elif event == 'criar':
             nome = dados_tag.get('nome')
             tag.nome = nome
-
-    @ property
-    def tags(self):
-        return self.__dao.get_all()
