@@ -1,4 +1,5 @@
 from dao.AtividadeDAO import AtividadeDAO
+from dao.CronogramaDAO import CronogramaDAO
 from model.Atividade import Atividade
 from view.TelaConcluirAtividade import TelaConcluirAtividade
 from datetime import datetime, timedelta
@@ -10,7 +11,6 @@ class ControladorConcluirAtividade:
     def __init__(self, controlador_sistema):
         self.__controlador_sistema = controlador_sistema
         self.__tela = TelaConcluirAtividade(self)
-        self.__atividade_dao = AtividadeDAO()
 
     def __new__(cls, _):
         if ControladorConcluirAtividade.__instance is None:
@@ -19,7 +19,11 @@ class ControladorConcluirAtividade:
 
     @property
     def atividade_dao(self) -> AtividadeDAO:
-        return self.__atividade_dao
+        return self.__controlador_sistema.controlador_atividade.dao
+
+    @property
+    def cronograma_dao(self) -> CronogramaDAO:
+        return self.__controlador_sistema.controlador_atividade.cronograma_dao
 
     def abre_tela(self, atividade: Atividade):
         while True:
@@ -34,5 +38,6 @@ class ControladorConcluirAtividade:
     def concluir(self, marcou_concluida: bool, atividade: Atividade):
         if marcou_concluida:
             atividade.concluida_em = datetime.today().strftime("%d/%m/%Y")
-            self.__atividade_dao.remove(atividade)
-            self.__atividade_dao.add(atividade)
+            self.cronograma_dao.deleta_alocacao_atividade(atividade)
+            self.atividade_dao.remove(atividade)
+            self.atividade_dao.add(atividade)
