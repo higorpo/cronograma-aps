@@ -22,8 +22,4 @@ class ControladorAtividadeDisciplina:
         self.__tela.abrir_tela(self.__map_object_to_array(codigo_disciplina))
 
     def __map_object_to_array(self, codigo_disciplina):
-        graus_dificuldade_tempo = {
-            'fácil': 30, 'médio': 60, 'díficil': 90, 'muito difícil': 120
-        }
-
-        return list(map(lambda item: [item.id, item.nome, item.disciplina.nome, 'Sem tag' if item.tag is None else item.tag.nome, item.grau_dificuldade, item.prazo_entrega, graus_dificuldade_tempo[item.grau_dificuldade]], self.dao.get_all_by_disciplina(codigo_disciplina)))
+        return list(map(lambda item: [item.id, item.nome, item.disciplina.nome, 'Sem tag' if item.tag is None else item.tag.nome, item.grau_dificuldade, item.prazo_entrega], self.dao.get_all_by_disciplina(codigo_disciplina)))

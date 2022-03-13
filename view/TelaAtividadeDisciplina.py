@@ -10,7 +10,7 @@ class TelaAtividadeDisciplina(AbstractTela):
 
     def init_components(self, data):
         headings = ['Código', 'Nome da atividade', 'Disciplina',
-                    'Tag', 'Grau de dificuldade', 'Prazo de entrega', 'Tempo recomendado (em minutos)']
+                    'Tag', 'Grau de dificuldade', 'Data de entrega']
         layout = super()\
             .layout_tela_lista(headings=headings, values=data, modulo_nome='atividade', btn_visualizar_enabled=False, btn_confirmar_enabled=False, btn_deletar_enabled=False, btn_cadastrar_enabled=False, btn_editar_enabled=False)  # TODO: Habilitar botão
 
